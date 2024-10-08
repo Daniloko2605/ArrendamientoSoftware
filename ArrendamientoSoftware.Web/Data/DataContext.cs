@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ArrendamientoSoftware.Web.Data.Entities;
-using static System.Collections.Specialized.BitVector32;
-using System.Reflection.Metadata;
-using ArrendamientoSoftware.Web.Data.Entities.PrivateBlog.Web.Data.Entities;
+﻿using ArrendamientoSoftware.Web.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArrendamientoSoftware.Web.Data
 {
@@ -12,7 +9,7 @@ namespace ArrendamientoSoftware.Web.Data
         {
         }
 
-        public DbSet<Propiedad> Properties { get; set; }
+        public DbSet<Properties> Properties { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }
