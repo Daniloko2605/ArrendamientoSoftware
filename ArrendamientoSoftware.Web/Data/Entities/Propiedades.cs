@@ -2,7 +2,7 @@
 
 namespace ArrendamientoSoftware.Web.Data.Entities
     {
-        public class Properties
+        public class Propiedades
         {
             [Key]
             public int Id { get; set; }

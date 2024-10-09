@@ -20,7 +20,7 @@ namespace ArrendamientoSoftware.Web
 
         public static void AddServices(WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IPropertiesService, PropertiesService>();
+            builder.Services.AddScoped<IPropiedadesService, PropiedadesService>();
         }
     }
 

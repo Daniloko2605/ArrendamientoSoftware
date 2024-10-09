@@ -9,7 +9,7 @@ namespace ArrendamientoSoftware.Web.Data
         {
         }
 
-        public DbSet<Properties> Properties { get; set; }
+        public DbSet<Propiedades> Propiedades { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }
