@@ -1,112 +1,101 @@
-﻿using ArrendamientoSoftware.Web.Data.Entities;
+﻿using ArrendamientoSoftware.Web.Core;
+using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArrendamientoSoftware.Web.Controllers
 {
     public class PropertiesController : Controller
     {
-        //private readonly IpropiedadsService _propiedadsService;
+        private readonly IPropertiesService _propertiesService;
 
-        //public PropertiesController(IpropiedadsService propiedadsService) 
-        //{
-        //    _propiedadsService = propiedadsService;
-        //}
-
-        //[HttpGet]
-        public async Task<IActionResult> Index()
+        public PropertiesController(IPropertiesService propertiesService)  //Con esto se inyectó el servicio de propiedades.
         {
-            List<Properties>propiedades = new List<Properties>
-            {
-                new Properties
-                {
-                    Id = 1,
-                    Direccion = "Carrera 19 #22-67",
-                    Ciudad = "Medellín",
-                    CreatedDate = DateTime.Now,
-                    Descripcion = "Casa finca en Guayabal",
-                    Owner = "Raul Gonzales",
-                    IdOwner = 1, 
-                    Precio = 500000000, 
-                    UpdatedDate = DateTime.Now,
-
-                }
-            };
-            return View(propiedades);
+            _propertiesService = propertiesService;
         }
 
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create(Propiedad propiedad)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return View(propiedad);
-        //        }
+            Response<List<Properties>> response = await _propertiesService.GetListAsync();
+            return View(response.Result);
+        }
 
-        //        Response<Propiedad> response = await _propiedadsService.CreateAsync(propiedad);
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //        if (response.IsSucess)
-        //        {
-        //            return RedirectToAction(nameof(Index));
-        //        }
+        [HttpPost]
+        public async Task<IActionResult> Create(Properties properties)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(properties);
+                }
 
-        //        //TO DO: Mostrar mensaje de error
-        //        return View(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return View(propiedad);
-        //    }
-        //}
+                Response<Properties> response = await _propertiesService.CreateAsync(properties);
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit([FromRoute] int id)
-        //{
-        //    Response<Propiedad> response = await _propiedadsService.GetOneAsync(id);
+                if (response.IsSucess)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
 
-        //    if (response.IsSucess)
-        //    {
-        //        return View(response.Result);
-        //    }
+                //TO DO: Mostrar mensaje de error
+                return View(response);
+            }
+            catch (Exception ex)
+            {
+                return View(properties);
+            }
+        }
 
-        //    //TODO: Mensaje de error
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Edit([FromRoute] int id)
+        {
+            Response<Properties> response = await _propertiesService.GetOneAsync(id);
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(Propiedad propiedad)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            //TODO: Mensaje de error
-        //            return View(propiedad);
-        //        }
+            if (response.IsSucess)
+            {
+                return View(response.Result);
+            }
 
-        //        Response<Propiedad> response = await _propiedadsService.EditAsync(propiedad);
+            //TODO: Mensaje de error
+            return RedirectToAction(nameof(Index));
+        }
 
-        //        if (response.IsSucess)
-        //        {
-        //            //TODO: Mensaje de éxito
-        //            return RedirectToAction(nameof(Index));
-        //        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Properties properties)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    //TODO: Mensaje de error
+                    return View(properties);
+                }
 
-        //        //TODO: Mostrar mensaje de error
-        //        return View(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //TODO: Mensaje de error
-        //        return View(propiedad);
-        //    }
-        //}
+                Response<Properties> response = await _propertiesService.EditAsync(properties);
+
+                if (response.IsSucess)
+                {
+                    //TODO: Mensaje de éxito
+                    return RedirectToAction(nameof(Index));
+                }
+
+                //TODO: Mostrar mensaje de error
+                return View(response);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Mensaje de error
+                return View(properties);
+            }
+        }
     }
 }
+

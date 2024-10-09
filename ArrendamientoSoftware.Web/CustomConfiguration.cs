@@ -1,5 +1,6 @@
 ﻿using ArrendamientoSoftware.Web.Data;
 using Microsoft.EntityFrameworkCore;
+using ArrendamientoSoftware.Web.Services;
 
 namespace ArrendamientoSoftware.Web
 {
@@ -15,6 +16,11 @@ namespace ArrendamientoSoftware.Web
             });
 
             return builder;
+        }
+
+        public static void AddServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IPropertiesService, PropertiesService>();
         }
     }
 
