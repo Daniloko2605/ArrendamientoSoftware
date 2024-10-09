@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArrendamientoSoftware.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatePropiedadTable : Migration
+    public partial class CreateGeneralTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,10 +17,12 @@ namespace ArrendamientoSoftware.Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Tipo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Ciudad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Precio = table.Column<float>(type: "real", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdOwner = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),

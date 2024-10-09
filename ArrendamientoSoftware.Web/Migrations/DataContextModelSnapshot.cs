@@ -47,6 +47,11 @@ namespace ArrendamientoSoftware.Web.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int?>("IdOwner")
                         .HasColumnType("int");
 
@@ -56,6 +61,11 @@ namespace ArrendamientoSoftware.Web.Migrations
 
                     b.Property<float>("Precio")
                         .HasColumnType("real");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");

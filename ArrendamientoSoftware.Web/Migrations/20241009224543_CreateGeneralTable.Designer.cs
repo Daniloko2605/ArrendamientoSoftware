@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrendamientoSoftware.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241009195243_CreatePropiedadTable")]
-    partial class CreatePropiedadTable
+    [Migration("20241009224543_CreateGeneralTable")]
+    partial class CreateGeneralTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,11 @@ namespace ArrendamientoSoftware.Web.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int?>("IdOwner")
                         .HasColumnType("int");
 
@@ -59,6 +64,11 @@ namespace ArrendamientoSoftware.Web.Migrations
 
                     b.Property<float>("Precio")
                         .HasColumnType("real");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");

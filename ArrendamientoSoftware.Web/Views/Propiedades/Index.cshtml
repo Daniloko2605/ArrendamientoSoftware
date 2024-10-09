@@ -40,10 +40,13 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
+                        <th scope="col">Tipo</th>
                         <th scope="col">Descripcion</th>
                         <th scope="col">Ciudad</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Precio</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -53,13 +56,15 @@
                     {
                         <tr>
                             <td>@item.Id</td>
+                            <td>@item.Tipo</td>
                             <td>@item.Descripcion</td>
                             <td>@item.Ciudad</td>
                             <td>@item.Direccion</td>
                             <td>@item.Precio</td>
+                            <td>@item.Owner</td>
+                            <td>@item.Estado</td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
-
                                 <form asp-action="Delete" asp-route-id="@item.Id" style="display:contents">
                                     <button class="btn btn-danger btn-sm btnDelete"><i class="bi bi-trash-fill"></i></button>
                                 </form>

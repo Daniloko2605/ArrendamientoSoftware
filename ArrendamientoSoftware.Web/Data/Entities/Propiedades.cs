@@ -7,6 +7,12 @@ namespace ArrendamientoSoftware.Web.Data.Entities
             [Key]
             public int Id { get; set; }
 
+            [Display(Name = "Tipo")]
+            [StringLength(255, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
+            [Required(ErrorMessage = "El campo '{0}' es requerido.")]
+
+            public string Tipo { get; set; }
+
             [Display(Name = "Dirección")]
             [StringLength(255, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
             [Required(ErrorMessage = "El campo '{0}' es requerido.")]
@@ -23,9 +29,13 @@ namespace ArrendamientoSoftware.Web.Data.Entities
 
             public float Precio { get; set; }
 
+            [Display(Name = "Descripción")]
             public string Descripcion { get; set; }
 
-            [Display(Name = "Descripción")]
+            [Display(Name = "Estado")]
+            [StringLength(255, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
+            [Required(ErrorMessage = "El campo '{0}' es requerido.")]
+            public string Estado { get; set; }
 
             //revisar, recordar que esto es una relacion 
             public string Owner { get; set; }
