@@ -5,11 +5,11 @@ namespace ArrendamientoSoftware.Web.Helpers
     public static class ResponseHelper<T>
     {
 
-        public static Response<T> MakeResponseSucess(T model, string message = "Tarea realizada con éxito")
+        public static Response<T> MakeResponseSuccess(T model, string message = "Tarea realizada con éxito")
         {
             return new Response<T>
             {
-                IsSucess = true,
+                IsSuccess = true,
                 Message = message,
                 Result = model,
             };
@@ -24,7 +24,7 @@ namespace ArrendamientoSoftware.Web.Helpers
                     ex.Message
                 },
 
-                IsSucess = false,
+                IsSuccess = false,
                 Message = message,
             };
         }
@@ -38,7 +38,7 @@ namespace ArrendamientoSoftware.Web.Helpers
                     message
                 },
 
-                IsSucess = false,
+                IsSuccess = false,
                 Message = message,
             };
         }

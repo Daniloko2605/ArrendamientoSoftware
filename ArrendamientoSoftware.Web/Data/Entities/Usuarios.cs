@@ -3,7 +3,7 @@
 namespace ArrendamientoSoftware.Web.Data.Entities
 {
 
-    public class User
+    public class Usuarios
     {
         [Key]
         public int Id { get; set; }

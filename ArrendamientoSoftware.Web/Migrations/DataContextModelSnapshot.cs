@@ -22,7 +22,7 @@ namespace ArrendamientoSoftware.Web.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ArrendamientoSoftware.Web.Data.Entities.PrivateBlog.Web.Data.Entities.Propiedad", b =>
+            modelBuilder.Entity("ArrendamientoSoftware.Web.Data.Entities.Propiedades", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,23 +50,22 @@ namespace ArrendamientoSoftware.Web.Migrations
                     b.Property<int?>("IdOwner")
                         .HasColumnType("int");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("money");
+                    b.Property<float>("Precio")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Properties");
+                    b.ToTable("Propiedades");
                 });
 
-            modelBuilder.Entity("ArrendamientoSoftware.Web.Data.Entities.User", b =>
+            modelBuilder.Entity("ArrendamientoSoftware.Web.Data.Entities.Usuarios", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,18 +101,7 @@ namespace ArrendamientoSoftware.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ArrendamientoSoftware.Web.Data.Entities.PrivateBlog.Web.Data.Entities.Propiedad", b =>
-                {
-                    b.HasOne("ArrendamientoSoftware.Web.Data.Entities.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
+                    b.ToTable("Usuarios");
                 });
 #pragma warning restore 612, 618
         }

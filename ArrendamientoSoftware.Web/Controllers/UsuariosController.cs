@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArrendamientoSoftware.Web.Controllers
 {
-    public class PropiedadesController : Controller
+    public class UsuariosController : Controller
     {
-        private readonly IPropiedadesService _propiedadesService;
+        private readonly IUsuariosService _usuariosService;
 
-        public PropiedadesController(IPropiedadesService propiedadesService)  // Inyección del servicio de propiedades.
+        public UsuariosController(IUsuariosService usuariosService)  // Inyección del servicio de usuarios.
         {
-            _propiedadesService = propiedadesService;
+            _usuariosService = usuariosService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            Response<List<Propiedades>> response = await _propiedadesService.GetListAsync();
+            Response<List<Usuarios>> response = await _usuariosService.GetListAsync();
             return View(response.Result);
         }
 
@@ -28,16 +28,16 @@ namespace ArrendamientoSoftware.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Propiedades propiedades)
+        public async Task<IActionResult> Create(Usuarios usuarios)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(propiedades);
+                    return View(usuarios);
                 }
 
-                Response<Propiedades> response = await _propiedadesService.CreateAsync(propiedades);
+                Response<Usuarios> response = await _usuariosService.CreateAsync(usuarios);
 
                 if (response.IsSuccess)
                 {
@@ -50,14 +50,14 @@ namespace ArrendamientoSoftware.Web.Controllers
             catch (Exception ex)
             {
                 // TODO: Manejar el error adecuadamente
-                return View(propiedades);
+                return View(usuarios);
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit([FromRoute] int id)
         {
-            Response<Propiedades> response = await _propiedadesService.GetOneAsync(id);
+            Response<Usuarios> response = await _usuariosService.GetOneAsync(id);
 
             if (response.IsSuccess)
             {
@@ -69,17 +69,17 @@ namespace ArrendamientoSoftware.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Propiedades propiedades)
+        public async Task<IActionResult> Edit(Usuarios usuarios)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     // TODO: Mensaje de error
-                    return View(propiedades);
+                    return View(usuarios);
                 }
 
-                Response<Propiedades> response = await _propiedadesService.EditAsync(propiedades);
+                Response<Usuarios> response = await _usuariosService.EditAsync(usuarios);
 
                 if (response.IsSuccess)
                 {
@@ -93,11 +93,8 @@ namespace ArrendamientoSoftware.Web.Controllers
             catch (Exception ex)
             {
                 // TODO: Mensaje de error
-                return View(propiedades);
+                return View(usuarios);
             }
         }
     }
 }
-
-
-

@@ -1,0 +1,62 @@
+﻿@using ArrendamientoSoftware.Web.Data.Entities
+@model List<Usuarios>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="pagetitle">
+    <h1>Usuarios</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+            <li class="breadcrumb-item active">Usuarios</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section dashboard">
+    <div class="card">
+        <div class="card-header py-3">
+            <div class="row">
+                <h3 class="m-0 font-weight bold text-primary col-md-11">Usuarios</h3>
+                <div class="col-md-1">
+                    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body mt-2">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Fecha de Creación</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Usuarios item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Email</td>
+                            <td>@item.Telefono</td>
+                            <td>@item.Rol</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></a>
+                            </td>
+                        </tr>
+                    } 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

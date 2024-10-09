@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Sales <span>| Today</span></h5>
+                        <h5 class="card-title">Apartamentos</h5>
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                        <h5 class="card-title">Casas <span></span></h5>
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Customers <span>| This Year</span></h5>
+                        <h5 class="card-title">Fincas <span></span></h5>
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -134,7 +134,7 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Reports <span>/Today</span></h5>
+                        <h5 class="card-title">Inmuebles Destacados</h5>
 
                         <!-- Line Chart -->
                         <div id="reportsChart"></div>
@@ -143,14 +143,7 @@
                             document.addEventListener("DOMContentLoaded", () => {
                               new ApexCharts(document.querySelector("#reportsChart"), {
                                 series: [{
-                                  name: 'Sales',
-                                  data: [31, 40, 28, 51, 42, 82, 56],
                                 }, {
-                                  name: 'Revenue',
-                                  data: [11, 32, 45, 32, 34, 52, 41]
-                                }, {
-                                  name: 'Customers',
-                                  data: [15, 11, 32, 18, 9, 24, 11]
                                 }],
                                 chart: {
                                   height: 350,
@@ -215,16 +208,14 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                        <h5 class="card-title">Propiedades recientes</h5>
 
                         <table class="table table-borderless datatable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Precio</th>
                                 </tr>
                             </thead>
                             <tbody>
