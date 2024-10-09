@@ -1,0 +1,49 @@
+[33mcommit 8e76083a9995bffcd36d8aacf071299b58f9e274[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Tue Oct 8 14:48:54 2024 -0500
+
+    cambios en el gitignore y base de datos
+
+[33mcommit cecad21a23b79164f91f2eed515c9abf88d80875[m
+Merge: 3917053 bb0f9e1
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Tue Oct 8 11:43:52 2024 -0500
+
+    Merge branch 'main' of https://github.com/Daniloko2605/ArrendamientoSoftware
+
+[33mcommit 391705318f783fc9391a8f2b842b8fd084fe42de[m
+Merge: 7f9aaaf c7b71f2
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Tue Oct 8 11:36:49 2024 -0500
+
+    Merge branch 'DanielCardona'
+
+[33mcommit bb0f9e184f2b8a44bf949063c08544a58334288b[m
+Author: RUIZ <daniru2770@gmail.com>
+Date:   Tue Oct 8 11:30:22 2024 -0500
+
+    Creación inicial del proyecto
+
+[33mcommit 7f9aaaf72f9ad884daca4380c8e42b03da387032[m
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Tue Oct 8 11:06:24 2024 -0500
+
+    Otro ejemplo de cambio
+
+[33mcommit c7b71f2c067e6ddc81b3989448d217d039dfb039[m[33m ([m[1;31morigin/DanielCardona[m[33m, [m[1;32mDanielCardona[m[33m)[m
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Tue Oct 8 04:28:26 2024 -0500
+
+    Ajuste con migracion
+
+[33mcommit a4f1dc665ca8ab18078261acf8d6593749f39268[m
+Author: Daniel Cardona <danielcardona288459@correo.itm.edu.co>
+Date:   Mon Oct 7 20:36:50 2024 -0500
+
+    eSTA  ES UNA PRUEBA DE COMMIT
+
+[33mcommit 35aeee25e6e71ded18423256e2713bc1e2d6e88b[m
+Author: Daniel Cardona <113378981+Daniloko2605@users.noreply.github.com>
+Date:   Mon Oct 7 09:38:02 2024 -0500
+
+    Initial commit

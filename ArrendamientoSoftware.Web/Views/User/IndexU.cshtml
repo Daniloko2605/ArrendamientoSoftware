@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ArrendamientoSoftware.Web.Data.Entities.User>
+
+@{
+    ViewData["Title"] = "Lista de Usuarios";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Agregar Usuario</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Nombre</td>
+                    <td>@user.Email</td>
+                    <td>@user.Telefono</td>
+                    <td>@user.Rol</td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = user.Id })" class="btn btn-warning">Editar</a>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
