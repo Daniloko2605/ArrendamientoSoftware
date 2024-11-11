@@ -47,5 +47,8 @@ namespace ArrendamientoSoftware.Web.Data.Entities
 
             [Display(Name = "Fecha de Actualización")]
             public DateTime UpdatedDate { get; set; }
-        }
+
+            [Display(Name = "¿Está disponible?")]
+            public bool IsHidden { get; set; }
+    }
     }

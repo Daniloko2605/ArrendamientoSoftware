@@ -1,23 +1,39 @@
 ﻿using ArrendamientoSoftware.Web.Core;
+using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.Requests;
 using ArrendamientoSoftware.Web.Services;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArrendamientoSoftware.Web.Controllers
 {
+    [Authorize]
     public class PropiedadesController : Controller
     {
         private readonly IPropiedadesService _propiedadesService;
+        private readonly INotyfService _notifyService;
 
-        public PropiedadesController(IPropiedadesService propiedadesService)  // Inyección del servicio de propiedades.
+        public PropiedadesController(IPropiedadesService propiedadesService, INotyfService notifyService)
         {
             _propiedadesService = propiedadesService;
+            _notifyService = notifyService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] int? RecordsPerPage,
+                                               [FromQuery] int? Page,
+                                               [FromQuery] string? Filter)
         {
-            Response<List<Propiedades>> response = await _propiedadesService.GetListAsync();
+            PaginationRequest request = new PaginationRequest
+            {
+                RecordsPerPage = RecordsPerPage ?? 15,
+                Page = Page ?? 1,
+                Filter = Filter
+            };
+
+            Response<PaginationResponse<Propiedades>> response = await _propiedadesService.GetListAsync(request);
             return View(response.Result);
         }
 
@@ -34,6 +50,7 @@ namespace ArrendamientoSoftware.Web.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    _notifyService.Error("Debe ajustar los errores de validación");
                     return View(propiedades);
                 }
 
@@ -41,15 +58,15 @@ namespace ArrendamientoSoftware.Web.Controllers
 
                 if (response.IsSuccess)
                 {
+                    _notifyService.Success(response.Message);
                     return RedirectToAction(nameof(Index));
                 }
 
-                // TODO: Mostrar mensaje de error
+                _notifyService.Error(response.Message);
                 return View(response);
             }
             catch (Exception ex)
             {
-                // TODO: Manejar el error adecuadamente
                 return View(propiedades);
             }
         }
@@ -64,7 +81,7 @@ namespace ArrendamientoSoftware.Web.Controllers
                 return View(response.Result);
             }
 
-            // TODO: Mensaje de error
+            _notifyService.Error(response.Message);
             return RedirectToAction(nameof(Index));
         }
 
@@ -75,7 +92,7 @@ namespace ArrendamientoSoftware.Web.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    // TODO: Mensaje de error
+                    _notifyService.Error("Debe ajustar los errores de validación");
                     return View(propiedades);
                 }
 
@@ -83,18 +100,58 @@ namespace ArrendamientoSoftware.Web.Controllers
 
                 if (response.IsSuccess)
                 {
-                    // TODO: Mensaje de éxito
+                    _notifyService.Success(response.Message);
                     return RedirectToAction(nameof(Index));
                 }
 
-                // TODO: Mostrar mensaje de error
+                _notifyService.Error(response.Message);
                 return View(response);
             }
             catch (Exception ex)
             {
-                // TODO: Mensaje de error
+                _notifyService.Error(ex.Message);
                 return View(propiedades);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            Response<Propiedades> response = await _propiedadesService.DeleteAsync(id);
+
+            if (response.IsSuccess)
+            {
+                _notifyService.Success(response.Message);
+            }
+            else
+            {
+                _notifyService.Error(response.Message);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Toggle(int PropiedadesId, bool Hide)
+        {
+            TogglePropiedadesStatusRequest request = new TogglePropiedadesStatusRequest
+            {
+                Hide = Hide,
+                PropiedadesId = PropiedadesId
+            };
+
+            Response<Propiedades> response = await _propiedadesService.ToggleAsync(request);
+
+            if (response.IsSuccess)
+            {
+                _notifyService.Success(response.Message);
+            }
+            else
+            {
+                _notifyService.Error(response.Message);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

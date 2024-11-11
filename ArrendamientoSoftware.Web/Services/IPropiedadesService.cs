@@ -1,21 +1,26 @@
 ﻿using ArrendamientoSoftware.Web.Core;
+using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Data;
-using ArrendamientoSoftware.Web.Requests;
 using ArrendamientoSoftware.Web.Data.Entities;
 using ArrendamientoSoftware.Web.Helpers;
+using ArrendamientoSoftware.Web.Requests;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace ArrendamientoSoftware.Web.Services
 {
     public interface IPropiedadesService
     {
         public Task<Response<Propiedades>> CreateAsync(Propiedades model);
+
         public Task<Response<Propiedades>> DeleteAsync(int id);
+
         public Task<Response<Propiedades>> EditAsync(Propiedades model);
-        public Task<Response<List<Propiedades>>> GetListAsync();
+
+        public Task<Response<PaginationResponse<Propiedades>>> GetListAsync(PaginationRequest request);
+
         public Task<Response<Propiedades>> GetOneAsync(int id);
-        public Task<Response<Propiedades>> TogglePropiedadesAsync(TogglePropiedadesRequest request);
+
+        public Task<Response<Propiedades>> ToggleAsync(TogglePropiedadesStatusRequest request);
     }
 
     public class PropiedadesService : IPropiedadesService
@@ -33,15 +38,7 @@ namespace ArrendamientoSoftware.Web.Services
             {
                 Propiedades propiedades = new Propiedades
                 {
-                    Id = model.Id,
-                    Descripcion = model.Descripcion,
-                    Direccion = model.Direccion,
-                    Ciudad = model.Ciudad,
-                    Precio = model.Precio,
-                    Owner = model.Owner,
-                    IdOwner = model.IdOwner,
-                    CreatedDate = model.CreatedDate,
-                    UpdatedDate = model.UpdatedDate,
+                    Tipo = model.Tipo,
                 };
 
                 await _context.Propiedades.AddAsync(propiedades);
@@ -59,14 +56,14 @@ namespace ArrendamientoSoftware.Web.Services
         {
             try
             {
-                Propiedades? propiedades = await _context.Propiedades.FirstOrDefaultAsync(s => s.Id == id);
+                Response<Propiedades> response = await GetOneAsync(id);
 
-                if (propiedades is null)
+                if (!response.IsSuccess)
                 {
-                    return ResponseHelper<Propiedades>.MakeResponseFail($"La propiedad con el id '{id}' no existe.");
+                    return response;
                 }
 
-                _context.Propiedades.Remove(propiedades);
+                _context.Propiedades.Remove(response.Result);
                 await _context.SaveChangesAsync();
 
                 return ResponseHelper<Propiedades>.MakeResponseSuccess(null, "Propiedad eliminada con éxito");
@@ -92,17 +89,34 @@ namespace ArrendamientoSoftware.Web.Services
             }
         }
 
-        public async Task<Response<List<Propiedades>>> GetListAsync()
+        public async Task<Response<PaginationResponse<Propiedades>>> GetListAsync(PaginationRequest request)
         {
             try
             {
-                List<Propiedades> propiedades = await _context.Propiedades.ToListAsync();
+                IQueryable<Propiedades> query = _context.Propiedades.AsQueryable();
 
-                return ResponseHelper<List<Propiedades>>.MakeResponseSuccess(propiedades);
+                if (!string.IsNullOrWhiteSpace(request.Filter))
+                {
+                    query = query.Where(s => s.Tipo.ToLower().Contains(request.Filter.ToLower()));
+                }
+
+                PagedList<Propiedades> list = await PagedList<Propiedades>.ToPagedListAsync(query, request);
+
+                PaginationResponse<Propiedades> result = new PaginationResponse<Propiedades>
+                {
+                    List = list,
+                    TotalCount = list.TotalCount,
+                    RecordsPerPage = list.RecordsPerPage,
+                    CurrentPage = list.CurrentPage,
+                    TotalPages = list.TotalPages,
+                    Filter = request.Filter
+                };
+
+                return ResponseHelper<PaginationResponse<Propiedades>>.MakeResponseSuccess(result, "Secciones obtenidas con éxito");
             }
             catch (Exception ex)
             {
-                return ResponseHelper<List<Propiedades>>.MakeResponseFail(ex);
+                return ResponseHelper<PaginationResponse<Propiedades>>.MakeResponseFail(ex);
             }
         }
 
@@ -114,7 +128,7 @@ namespace ArrendamientoSoftware.Web.Services
 
                 if (propiedades is null)
                 {
-                    return ResponseHelper<Propiedades>.MakeResponseFail("No existe la propiedad con la descripción asignada");
+                    return ResponseHelper<Propiedades>.MakeResponseFail("La propiedad con el id indicado no existe");
                 }
 
                 return ResponseHelper<Propiedades>.MakeResponseSuccess(propiedades);
@@ -125,21 +139,24 @@ namespace ArrendamientoSoftware.Web.Services
             }
         }
 
-        public async Task<Response<Propiedades>> TogglePropiedadesAsync(TogglePropiedadesRequest request)
+        public async Task<Response<Propiedades>> ToggleAsync(TogglePropiedadesStatusRequest request)
         {
             try
             {
-                Propiedades? model = await _context.Propiedades.FindAsync(request.PropiedadDescripcion);
+                Response<Propiedades> response = await GetOneAsync(request.PropiedadesId);
 
-                if (model == null)
+                if (!response.IsSuccess)
                 {
-                    return ResponseHelper<Propiedades>.MakeResponseFail($"No existe propiedad con la descripción '{request.PropiedadDescripcion}'");
+                    return response;
                 }
 
-                _context.Propiedades.Update(model);
+                Propiedades propiedades = response.Result;
+
+                propiedades.IsHidden = request.Hide;
+                _context.Propiedades.Update(propiedades);
                 await _context.SaveChangesAsync();
 
-                return ResponseHelper<Propiedades>.MakeResponseSuccess(model, "Propiedad Actualizada con éxito");
+                return ResponseHelper<Propiedades>.MakeResponseSuccess(null, "Propiedad actualizada con éxito");
             }
             catch (Exception ex)
             {
