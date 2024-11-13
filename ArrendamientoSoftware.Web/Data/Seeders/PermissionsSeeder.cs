@@ -1,3 +1,4 @@
+using ArrendamientoSoftware.Web.Data.Entities;
 ﻿using ArrendamientoSoftware.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
