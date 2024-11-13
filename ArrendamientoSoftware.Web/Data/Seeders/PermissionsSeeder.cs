@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ArrendamientoSoftware.Web.Data.Entities;
-using static System.Collections.Specialized.BitVector32;
+﻿using ArrendamientoSoftware.Web.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArrendamientoSoftware.Web.Data.Seeders
 {
@@ -19,7 +18,7 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
 
             foreach (Permission permission in permissions)
             {
-                bool exists = await _context.Permissions.AnyAsync(p => p.Name == permission.Name 
+                bool exists = await _context.Permissions.AnyAsync(p => p.Name == permission.Name
                                                                         && p.Module == permission.Module);
 
                 if (!exists)
