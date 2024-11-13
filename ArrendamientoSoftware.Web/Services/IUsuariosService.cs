@@ -1,55 +1,53 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using ArrendamientoSoftware.Web.Core;
 using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Data;
 using ArrendamientoSoftware.Web.Data.Entities;
 using ArrendamientoSoftware.Web.DTOs;
 using ArrendamientoSoftware.Web.Helpers;
-using ClaimsUser = System.Security.Claims.ClaimsPrincipal;
 
 namespace ArrendamientoSoftware.Web.Services
 {
     public interface IUsuariosService
     {
-        public Task<IdentityResult> AddUserAsync(Usuarios usuario, string password);
+        public Task<IdentityResult> AddUsuariosAsync(Usuarios usuario, string password);
         public Task<IdentityResult> ConfirmEmailAsync(Usuarios usuario, string token);
         public Task<Response<Usuarios>> CreateAsync(UsuariosDTO dto);
-        public Task<bool> CurrentUserIsAuthorizedAsync(string permission, string module);
         public Task<string> GenerateEmailConfirmationTokenAsync(Usuarios usuario);
         public Task<Response<PaginationResponse<Usuarios>>> GetListAsync(PaginationRequest request);
-        public Task<Usuarios> GetUserAsync(string email);
-        public Task<Usuarios> GetUserAsync(Guid id);
+        public Task<Usuarios> GetUsuariosAsync(string email);
+        public Task<Usuarios> GetUsuariosAsync(Guid id);
         public Task<SignInResult> LoginAsync(LoginDTO dto);
         public Task LogoutAsync();
-        public Task<Response<Usuarios>> UpdateAsync(UsuariosDTO dto);
+        public Task<IdentityResult> UpdateUsuariosAsync(Usuarios usuario);
+        public Task<Response<Usuarios>> UpdateUsuariosAsync(UsuariosDTO dto);
     }
 
     public class UsuariosService : IUsuariosService
     {
         private readonly DataContext _context;
         private readonly SignInManager<Usuarios> _signInManager;
-        private readonly UserManager<Usuarios> _userManager;
+        private readonly UserManager<Usuarios> _usuarioManager;
         private readonly IConverterHelper _converterHelper;
-        private IHttpContextAccessor _httpContextAccessor;
 
-        public UsuariosService(DataContext context, SignInManager<Usuarios> signInManager, UserManager<Usuarios> userManager, IConverterHelper converterHelper, IHttpContextAccessor httpContextAccessor)
+        public UsuariosService(DataContext context, SignInManager<Usuarios> signInManager, UserManager<Usuarios> usuarioManager, IConverterHelper converterHelper)
         {
             _context = context;
             _signInManager = signInManager;
-            _userManager = userManager;
+            _usuarioManager = usuarioManager;
             _converterHelper = converterHelper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IdentityResult> AddUserAsync(Usuarios usuario, string password)
+        public async Task<IdentityResult> AddUsuariosAsync(Usuarios usuario, string password)
         {
-            return await _userManager.CreateAsync(usuario, password);
+            return await _usuarioManager.CreateAsync(usuario, password);
         }
 
         public async Task<IdentityResult> ConfirmEmailAsync(Usuarios usuario, string token)
         {
-            return await _userManager.ConfirmEmailAsync(usuario, token);
+            return await _usuarioManager.ConfirmEmailAsync(usuario, token);
         }
 
         public async Task<Response<Usuarios>> CreateAsync(UsuariosDTO dto)
@@ -60,7 +58,7 @@ namespace ArrendamientoSoftware.Web.Services
                 Guid id = Guid.NewGuid();
                 usuario.Id = id.ToString();
 
-                IdentityResult result = await AddUserAsync(usuario, dto.Documento);
+                IdentityResult result = await AddUsuariosAsync(usuario, dto.Documento);
 
                 // TODO: Ajustar cuando se realize funcionalidad para envío de Email
                 string token = await GenerateEmailConfirmationTokenAsync(usuario);
@@ -74,41 +72,9 @@ namespace ArrendamientoSoftware.Web.Services
             }
         }
 
-        public async Task<bool> CurrentUserIsAuthorizedAsync(string permission, string module)
-        {
-            ClaimsUser? claimUser = _httpContextAccessor.HttpContext?.User;
-
-            // Valida si hay sesión
-            if (claimUser is null)
-            {
-                return false;
-            }
-
-            string? userName = claimUser.Identity.Name;
-
-            Usuarios? usuario = await GetUserAsync(userName);
-
-            // Valida si usuario existe
-            if (usuario is null)
-            {
-                return false;
-            }
-
-            // Valida si es admin
-            if (usuario.ArrendamientoSoftwareRole.Name == Env.SUPER_ADMIN_ROLE_NAME)
-            {
-                return true;
-            }
-
-            // Si no es administrador, valida si tiene el permiso
-            return await _context.Permissions.Include(p => p.RolePermissions)
-                                             .AnyAsync(p => (p.Module == module && p.Name == permission)
-                                                        && p.RolePermissions.Any(rp => rp.RoleId == usuario.ArrendamientoSoftwareRoleId));
-        }
-
         public async Task<string> GenerateEmailConfirmationTokenAsync(Usuarios usuario)
         {
-            return await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+            return await _usuarioManager.GenerateEmailConfirmationTokenAsync(usuario);
         }
 
         public async Task<Response<PaginationResponse<Usuarios>>> GetListAsync(PaginationRequest request)
@@ -147,7 +113,7 @@ namespace ArrendamientoSoftware.Web.Services
             }
         }
 
-        public async Task<Usuarios> GetUserAsync(string email)
+        public async Task<Usuarios> GetUsuariosAsync(string email)
         {
             Usuarios? usuario = await _context.Users.Include(u => u.ArrendamientoSoftwareRole)
                                              .FirstOrDefaultAsync(u => u.Email == email);
@@ -155,12 +121,10 @@ namespace ArrendamientoSoftware.Web.Services
             return usuario;
         }
 
-        public async Task<Usuarios> GetUserAsync(Guid id)
+        public async Task<Usuarios> GetUsuariosAsync(Guid id)
         {
-            Usuarios? usuario = await _context.Users.Include(u => u.ArrendamientoSoftwareRole)
-                                             .FirstOrDefaultAsync(x => x.Id == id.ToString());
-
-            return usuario;
+            return await _context.Users.Include(u => u.ArrendamientoSoftwareRole)
+                                             .FirstOrDefaultAsync(u => u.Id == id.ToString());
         }
 
         public async Task<SignInResult> LoginAsync(LoginDTO dto)
@@ -173,11 +137,16 @@ namespace ArrendamientoSoftware.Web.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<Response<Usuarios>> UpdateAsync(UsuariosDTO dto)
+        public async Task<IdentityResult> UpdateUsuariosAsync(Usuarios usuario)
+        {
+            return await _usuarioManager.UpdateAsync(usuario);
+        }
+
+        public async Task<Response<Usuarios>> UpdateUsuariosAsync(UsuariosDTO dto)
         {
             try
             {
-                Usuarios usuario = await GetUserAsync(dto.Id);
+                Usuarios usuario = await GetUsuariosAsync(dto.Id);
                 usuario.PhoneNumber = dto.Telefono;
                 usuario.Documento = dto.Documento;
                 usuario.Nombre = dto.Nombre;
@@ -196,3 +165,4 @@ namespace ArrendamientoSoftware.Web.Services
         }
     }
 }
+

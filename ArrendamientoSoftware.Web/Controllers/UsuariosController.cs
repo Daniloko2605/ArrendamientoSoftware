@@ -1,12 +1,12 @@
-﻿using ArrendamientoSoftware.Web.Core;
-using ArrendamientoSoftware.Web.Core.Pagination;
-using ArrendamientoSoftware.Web.Data.Entities;
-using ArrendamientoSoftware.Web.DTOs;
+﻿using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Helpers;
-using ArrendamientoSoftware.Web.Services;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ArrendamientoSoftware.Web.Core;
+using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.DTOs;
+using ArrendamientoSoftware.Web.Services;
 
 namespace ArrendamientoSoftware.Web.Controllers
 {
@@ -14,9 +14,9 @@ namespace ArrendamientoSoftware.Web.Controllers
     public class UsuariosController : Controller
     {
         private readonly ICombosHelper _combosHelper;
-        private readonly IConverterHelper _converterHelper;
         private readonly INotyfService _notifyService;
         private readonly IUsuariosService _usuariosService;
+        private readonly IConverterHelper _converterHelper;
 
         public UsuariosController(ICombosHelper combosHelper, INotyfService notifyService, IUsuariosService usuariosService, IConverterHelper converterHelper)
         {
@@ -84,6 +84,7 @@ namespace ArrendamientoSoftware.Web.Controllers
             }
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -92,13 +93,14 @@ namespace ArrendamientoSoftware.Web.Controllers
                 return NotFound();
             }
 
-            Usuarios usuario = await _usuariosService.GetUserAsync(id);
-            if (usuario == null)
+            Usuarios usuarios = await _usuariosService.GetUsuariosAsync(id);
+
+            if (usuarios is null)
             {
                 return NotFound();
             }
 
-            UsuariosDTO dto = await _converterHelper.ToUserDTOAsync(usuario, false);
+            UsuariosDTO dto = await _converterHelper.ToUserDTOAsync(usuarios, false);
 
             return View(dto);
         }
@@ -107,32 +109,24 @@ namespace ArrendamientoSoftware.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UsuariosDTO dto)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    _notifyService.Error("Debe ajustar los errores de validación");
-                    dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
-                    return View(dto);
-                }
-
-                Response<Usuarios> response = await _usuariosService.UpdateAsync(dto);
-
-                if (response.IsSuccess)
-                {
-                    _notifyService.Success(response.Message);
-                    return RedirectToAction(nameof(Index));
-                }
-
-                _notifyService.Error(response.Message);
+                _notifyService.Error("Debe ajustar los errores de validación");
                 dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
                 return View(dto);
             }
-            catch (Exception ex)
+
+            Response<Usuarios> response = await _usuariosService.UpdateUsuariosAsync(dto);
+
+            if (response.IsSuccess)
             {
-                dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
-                return View(dto);
+                _notifyService.Success(response.Message);
+                return RedirectToAction(nameof(Index));
             }
+
+            _notifyService.Error(response.Message);
+            dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+            return View(dto);
         }
 
     }

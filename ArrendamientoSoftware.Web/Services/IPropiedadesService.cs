@@ -38,12 +38,7 @@ namespace ArrendamientoSoftware.Web.Services
             {
                 Propiedades propiedades = new Propiedades
                 {
-                    Direccion = model.Direccion,
-                    Ciudad = model.Ciudad,
-                    Precio = model.Precio,
-                    Descripcion = model.Descripcion,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow
+                    Tipo = model.Tipo,
                 };
 
                 await _context.Propiedades.AddAsync(propiedades);
@@ -102,7 +97,7 @@ namespace ArrendamientoSoftware.Web.Services
 
                 if (!string.IsNullOrWhiteSpace(request.Filter))
                 {
-                    query = query.Where(s => s.Descripcion.ToLower().Contains(request.Filter.ToLower()));
+                    query = query.Where(s => s.Tipo.ToLower().Contains(request.Filter.ToLower()));
                 }
 
                 PagedList<Propiedades> list = await PagedList<Propiedades>.ToPagedListAsync(query, request);

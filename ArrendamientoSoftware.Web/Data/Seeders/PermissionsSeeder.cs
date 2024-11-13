@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 using ArrendamientoSoftware.Web.Data.Entities;
 ﻿using ArrendamientoSoftware.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+=======
+﻿using Microsoft.EntityFrameworkCore;
+using ArrendamientoSoftware.Web.Data.Entities;
+using static System.Collections.Specialized.BitVector32;
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
 
 namespace ArrendamientoSoftware.Web.Data.Seeders
 {
@@ -15,11 +21,19 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
 
         public async Task SeedAsync()
         {
+<<<<<<< HEAD
             List<Permission> permissions = [.. TipoInmueble(), .. Propiedades(), .. Usuarios()];
 
             foreach (Permission permission in permissions)
             {
                 bool exists = await _context.Permissions.AnyAsync(p => p.Name == permission.Name
+=======
+            List<Permission> permissions = [.. Blogs(), .. Sections()];
+
+            foreach (Permission permission in permissions)
+            {
+                bool exists = await _context.Permissions.AnyAsync(p => p.Name == permission.Name 
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                                                                         && p.Module == permission.Module);
 
                 if (!exists)
@@ -31,6 +45,7 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
             await _context.SaveChangesAsync();
         }
 
+<<<<<<< HEAD
         private List<Permission> TipoInmueble()
         {
             return new List<Permission>
@@ -65,5 +80,28 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
 
             return list;
         }
+=======
+        private List<Permission> Blogs()
+        {
+            return new List<Permission>
+            {
+                new Permission { Name = "showBlogs", Description = "Ver Blogs", Module = "Blogs" },
+                new Permission { Name = "createBlogs", Description = "Crear Blogs", Module = "Blogs" },
+                new Permission { Name = "editBlogs", Description = "Editar Blogs", Module = "Blogs" },
+                new Permission { Name = "deleteBlogs", Description = "Eliminar Blogs", Module = "Blogs" },
+            };
+        }
+
+        private List<Permission> Sections()
+        {
+            return new List<Permission>
+            {
+                new Permission { Name = "showSections", Description = "Ver Sections", Module = "Sections" },
+                new Permission { Name = "createSections", Description = "Crear Sections", Module = "Sections" },
+                new Permission { Name = "editSections", Description = "Editar Sections", Module = "Sections" },
+                new Permission { Name = "deleteSections", Description = "Eliminar Sections", Module = "Sections" },
+            };
+        }
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
     }
 }

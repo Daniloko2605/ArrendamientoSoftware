@@ -13,7 +13,5 @@ namespace ArrendamientoSoftware.Web.Data.Entities
         public string Name { get; set; } = null!;
 
         public ICollection<RolePermission> RolePermissions { get; set; }
-
-        public IEnumerable<Usuarios> Usuarios { get; set; }
     }
 }

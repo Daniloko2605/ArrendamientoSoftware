@@ -48,5 +48,10 @@ namespace ArrendamientoSoftware.Web.Data.Entities
 
             [Display(Name = "¿Está disponible?")]
             public bool IsHidden { get; set; }
+<<<<<<< HEAD
         }
 }
+=======
+    }
+    }
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886

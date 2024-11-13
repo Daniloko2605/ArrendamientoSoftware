@@ -61,9 +61,10 @@
                         <th scope="col">Nombres</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Documento</th>
-                        <th scope="col">Teléfono</th>
+                        <th scope="col">Telefono</th>
                         <th scope="col">Rol</th>
+                        <th scope="col">Fecha de creación</th>
+                        <th scope="col">Acciones</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -75,9 +76,7 @@
                             <td>@item.Nombre</td>
                             <td>@item.Apellido</td>
                             <td>@item.Email</td>
-                            <td>@item.Documento</td>
                             <td>@item.PhoneNumber</td>
-                            <td>@item.ArrendamientoSoftwareRole.Name</td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
 

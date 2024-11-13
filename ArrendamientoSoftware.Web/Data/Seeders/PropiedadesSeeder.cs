@@ -16,6 +16,7 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
         {
             List<Propiedades> propiedades = new List<Propiedades>
             {
+<<<<<<< HEAD
                 new Propiedades { Descripcion = "Casa" },
                 new Propiedades { Descripcion = "Local" },
                 new Propiedades { Descripcion = "Apartamento" },
@@ -30,6 +31,21 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                 if (!exists)
                 {
                     await _context.Propiedades.AddAsync(propiedad);
+=======
+                new Propiedades { Tipo = "Bodega" },
+                new Propiedades { Tipo = "Apartamento" },
+                new Propiedades { Tipo = "Casa" },
+                new Propiedades { Tipo = "Finca"},
+            };
+
+            foreach (Propiedades Propiedades in propiedades)
+            {
+                bool exists = await _context.Propiedades.AnyAsync(s => s.Tipo == Propiedades.Tipo);
+
+                if (!exists) 
+                {
+                    await _context.Propiedades.AddAsync(Propiedades);
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                 }
             }
 

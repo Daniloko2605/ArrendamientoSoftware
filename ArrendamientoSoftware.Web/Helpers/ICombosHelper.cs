@@ -40,7 +40,11 @@ namespace ArrendamientoSoftware.Web.Helpers
         {
             List<SelectListItem> list = await _context.Propiedades.Select(s => new SelectListItem
             {
+<<<<<<< HEAD
                 Text = s.Descripcion,
+=======
+                Text = s.Tipo,
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                 Value = s.Id.ToString()
             }).ToListAsync();
 

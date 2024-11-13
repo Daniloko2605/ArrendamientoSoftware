@@ -1,5 +1,4 @@
-using ArrendamientoSoftware.Web.Core;
-using ArrendamientoSoftware.Web.Core.Attributes;
+﻿using ArrendamientoSoftware.Web.Core;
 using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Data.Entities;
 using ArrendamientoSoftware.Web.Requests;
@@ -23,7 +22,6 @@ namespace ArrendamientoSoftware.Web.Controllers
         }
 
         [HttpGet]
-        [CustomAuthorize(permission: "showPropiedades", module: "Propiedades")]
         public async Task<IActionResult> Index([FromQuery] int? RecordsPerPage,
                                                [FromQuery] int? Page,
                                                [FromQuery] string? Filter)
@@ -121,7 +119,6 @@ namespace ArrendamientoSoftware.Web.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize(permission: "deletePropiedades", module: "Propiedades")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Response<Propiedades> response = await _propiedadesService.DeleteAsync(id);
@@ -139,7 +136,6 @@ namespace ArrendamientoSoftware.Web.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize(permission: "editPropiedades", module: "Propiedades")]
         public async Task<IActionResult> Toggle(int PropiedadesId, bool Hide)
         {
             TogglePropiedadesStatusRequest request = new TogglePropiedadesStatusRequest

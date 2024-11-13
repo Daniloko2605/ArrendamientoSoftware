@@ -1,12 +1,12 @@
 ﻿using ArrendamientoSoftware.Web.Data.Seeders;
 using ArrendamientoSoftware.Web.Data;
 using ArrendamientoSoftware.Web.Helpers;
-using ArrendamientoSoftware.Web.Services;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.Services;
 
 namespace ArrendamientoSoftware.Web
 {
@@ -66,8 +66,6 @@ namespace ArrendamientoSoftware.Web
         public static void AddServices(WebApplicationBuilder builder)
         {
             // Services
-            builder.Services.AddScoped<ITipoInmuebleService, TipoInmuebleService>();
-            builder.Services.AddScoped<IRolesService, RolesService>();
             builder.Services.AddScoped<IPropiedadesService, PropiedadesService>();
             builder.Services.AddTransient<SeedDb>();
             builder.Services.AddScoped<IUsuariosService, UsuariosService>();

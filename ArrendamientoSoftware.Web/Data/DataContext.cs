@@ -10,8 +10,6 @@ namespace ArrendamientoSoftware.Web.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {            
         }
-
-        public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<ArrendamientoSoftwareRole> ArrendamientoSoftwareRoles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
@@ -41,14 +39,14 @@ namespace ArrendamientoSoftware.Web.Data
 
         private void ConfigureIndexes(ModelBuilder builder)
         {
-            // Roles
+            // Roles =
             builder.Entity<ArrendamientoSoftwareRole>().HasIndex(r => r.Name)
                                              .IsUnique();
-            // Propiedades
-            builder.Entity<Propiedades>().HasIndex(s => s.Descripcion)
+            // Sections = propiedades
+            builder.Entity<Propiedades>().HasIndex(s => s.Tipo)
                                              .IsUnique();
-            // Usuarios
-            builder.Entity<Usuarios>().HasIndex(u => u.Documento)
+            // Users
+            builder.Entity<Usuarios>().HasIndex(u => u.Nombre)
                                              .IsUnique();
         }
     }

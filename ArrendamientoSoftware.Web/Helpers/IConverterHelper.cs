@@ -1,17 +1,27 @@
+<<<<<<< HEAD
 ﻿using Microsoft.EntityFrameworkCore;
 using ArrendamientoSoftware.Web.Data;
 using ArrendamientoSoftware.Web.Data.Entities;
 using ArrendamientoSoftware.Web.DTOs;
 using System.Data;
+=======
+﻿using ArrendamientoSoftware.Web.Helpers;
+using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.DTOs;
+using System.Reflection.Metadata;
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
 
 namespace ArrendamientoSoftware.Web.Helpers
 {
     public interface IConverterHelper
     {
+<<<<<<< HEAD
         public TipoInmueble ToTipoInmueble(TipoInmuebleDTO dto);
         public Task<TipoInmuebleDTO> ToTipoInmuebleDTO(TipoInmueble result);
         public ArrendamientoSoftwareRole ToRole(ArrendamientoSoftwareRoleDTO dto);
         public Task<ArrendamientoSoftwareRoleDTO> ToRoleDTOAsync(ArrendamientoSoftwareRole arrendamientoSoftwareRole);
+=======
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
         public Usuarios ToUser(UsuariosDTO dto);
         public Task<UsuariosDTO> ToUserDTOAsync(Usuarios usuario, bool isNew = true);
     }
@@ -19,6 +29,7 @@ namespace ArrendamientoSoftware.Web.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly ICombosHelper _combosHelper;
+<<<<<<< HEAD
         private readonly DataContext _context;
 
         public ConverterHelper(ICombosHelper combosHelper, DataContext context)
@@ -86,6 +97,12 @@ namespace ArrendamientoSoftware.Web.Helpers
                 Name = role.Name,
                 Permissions = permissions,
             };
+=======
+
+        public ConverterHelper(ICombosHelper combosHelper)
+        {
+            _combosHelper = combosHelper;
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
         }
 
         public Usuarios ToUser(UsuariosDTO dto)
@@ -97,7 +114,10 @@ namespace ArrendamientoSoftware.Web.Helpers
                 Nombre = dto.Nombre,
                 Apellido = dto.Apellido,
                 Email = dto.Email,
+<<<<<<< HEAD
                 UserName = dto.Email,
+=======
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                 ArrendamientoSoftwareRoleId = dto.ArrendamientoSoftwareRoleId,
                 PhoneNumber = dto.Telefono,
             };
@@ -114,7 +134,11 @@ namespace ArrendamientoSoftware.Web.Helpers
                 Email = usuario.Email,
                 ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync(),
                 ArrendamientoSoftwareRoleId = usuario.ArrendamientoSoftwareRoleId,
+<<<<<<< HEAD
                 Telefono = usuario.PhoneNumber,
+=======
+                Telefono = usuario.PhoneNumber
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
             };
         }
     }

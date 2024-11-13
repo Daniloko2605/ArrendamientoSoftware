@@ -25,7 +25,11 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
         private async Task CheckUsers()
         {
             // Admin
+<<<<<<< HEAD
             Usuarios? usuario = await _usuariosService.GetUserAsync("daniel@yopmail.com");
+=======
+            Usuarios? usuario = await _usuariosService.GetUsuariosAsync("daniel@gmail.com");
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
 
             if (usuario is null)
             {
@@ -36,6 +40,7 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                     Email = "daniel@yopmail.com",
                     Nombre = "Daniel",
                     Apellido = "Ruiz",
+<<<<<<< HEAD
                     PhoneNumber = "3135400865",
                     UserName = "daniel@yopmail.com",
                     Documento = "11117785",
@@ -43,12 +48,22 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                 };
 
                 await _usuariosService.AddUserAsync(usuario, "1234");
+=======
+                    PhoneNumber = "3105829748",
+                    UserName = "manuel@yopmail.com",
+                    Documento = "11111",
+                    ArrendamientoSoftwareRole = adminRole
+                };
+
+                await _usuariosService.AddUsuariosAsync(usuario, "1234");
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
 
                 string token = await _usuariosService.GenerateEmailConfirmationTokenAsync(usuario);
                 await _usuariosService.ConfirmEmailAsync(usuario, token);
             }
 
             // Content Manager
+<<<<<<< HEAD
             usuario = await _usuariosService.GetUserAsync("danielc@yopmail.com");
 
             if (usuario is null)
@@ -67,6 +82,26 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                 };
 
                 await _usuariosService.AddUserAsync(usuario, "1234");
+=======
+            usuario = await _usuariosService.GetUsuariosAsync("nalens@gmail.com");
+
+            if (usuario is null)
+            {
+                ArrendamientoSoftwareRole contentManagerRole = _context.ArrendamientoSoftwareRoles.FirstOrDefault(r => r.Name == "Gestor de contenido");
+
+                usuario = new Usuarios
+                {
+                    Email = "anad@yopmail.com",
+                    Nombre = "Nairo",
+                    Apellido = "Noel",
+                    PhoneNumber = "3458595784",
+                    UserName = "nalens@gmail.com",
+                    Documento = "15455858",
+                    ArrendamientoSoftwareRole = contentManagerRole
+                };
+
+                await _usuariosService.AddUsuariosAsync(usuario, "1234");
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
 
                 string token = await _usuariosService.GenerateEmailConfirmationTokenAsync(usuario);
                 await _usuariosService.ConfirmEmailAsync(usuario, token);
@@ -76,6 +111,7 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
         private async Task CheckRoles()
         {
             await AdminRoleAsync();
+<<<<<<< HEAD
             await AgentVRoleAsync();
             await PropertiesManagerAsync();
         }
@@ -96,10 +132,25 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                     _context.RolePermissions.Add(new RolePermission { Role = role, Permission = permission });
                 }
 
+=======
+            await ContentManagerAsync();
+            await UsuariosManagerAsync();
+        }
+
+        private async Task UsuariosManagerAsync()
+        {
+            bool exists = await _context.ArrendamientoSoftwareRoles.AnyAsync(r => r.Name == "Gestor de usuarios");
+
+            if (!exists)
+            {
+                ArrendamientoSoftwareRole role = new ArrendamientoSoftwareRole { Name = "Gestor de usuarios" };
+                await _context.ArrendamientoSoftwareRoles.AddAsync(role);
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                 await _context.SaveChangesAsync();
             }
         }
 
+<<<<<<< HEAD
         private async Task AgentVRoleAsync()
         {
             bool exists = await _context.ArrendamientoSoftwareRoles.AnyAsync(r => r.Name == "Agente de ventas");
@@ -118,6 +169,16 @@ namespace ArrendamientoSoftware.Web.Data.Seeders
                     _context.RolePermissions.Add(new RolePermission { Role = role, Permission = permission });
                 }
 
+=======
+        private async Task ContentManagerAsync()
+        {
+            bool exists = await _context.ArrendamientoSoftwareRoles.AnyAsync(r => r.Name == "Gestor de contenido");
+
+            if (!exists)
+            {
+                ArrendamientoSoftwareRole role = new ArrendamientoSoftwareRole { Name = "Gestor de contenido" };
+                await _context.ArrendamientoSoftwareRoles.AddAsync(role);
+>>>>>>> 3ea28f371e27d22435e1645cd9a4daf102c15886
                 await _context.SaveChangesAsync();
             }
         }
