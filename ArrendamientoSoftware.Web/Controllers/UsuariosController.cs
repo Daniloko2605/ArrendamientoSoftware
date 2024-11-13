@@ -1,100 +1,139 @@
 ﻿using ArrendamientoSoftware.Web.Core;
+using ArrendamientoSoftware.Web.Core.Pagination;
 using ArrendamientoSoftware.Web.Data.Entities;
+using ArrendamientoSoftware.Web.DTOs;
+using ArrendamientoSoftware.Web.Helpers;
 using ArrendamientoSoftware.Web.Services;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArrendamientoSoftware.Web.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
+        private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly INotyfService _notifyService;
         private readonly IUsuariosService _usuariosService;
 
-        public UsuariosController(IUsuariosService usuariosService)  // Inyección del servicio de usuarios.
+        public UsuariosController(ICombosHelper combosHelper, INotyfService notifyService, IUsuariosService usuariosService, IConverterHelper converterHelper)
         {
+            _combosHelper = combosHelper;
+            _notifyService = notifyService;
             _usuariosService = usuariosService;
+            _converterHelper = converterHelper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] int? RecordsPerPage,
+                                               [FromQuery] int? Page,
+                                               [FromQuery] string? Filter)
         {
-            Response<List<Usuarios>> response = await _usuariosService.GetListAsync();
+            PaginationRequest request = new PaginationRequest
+            {
+                RecordsPerPage = RecordsPerPage ?? 15,
+                Page = Page ?? 1,
+                Filter = Filter
+            };
+
+            Response<PaginationResponse<Usuarios>> response = await _usuariosService.GetListAsync(request);
             return View(response.Result);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            UsuariosDTO dto = new UsuariosDTO
+            {
+                ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync(),
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Usuarios usuarios)
+        public async Task<IActionResult> Create(UsuariosDTO dto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(usuarios);
+                    _notifyService.Error("Debe ajustar los errores de validación");
+                    dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                    return View(dto);
                 }
 
-                Response<Usuarios> response = await _usuariosService.CreateAsync(usuarios);
+                Response<Usuarios> response = await _usuariosService.CreateAsync(dto);
 
                 if (response.IsSuccess)
                 {
+                    _notifyService.Success(response.Message);
                     return RedirectToAction(nameof(Index));
                 }
 
-                // TODO: Mostrar mensaje de error
-                return View(response);
+                _notifyService.Error(response.Message);
+                dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                return View(dto);
             }
             catch (Exception ex)
             {
-                // TODO: Manejar el error adecuadamente
-                return View(usuarios);
+                dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                return View(dto);
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit([FromRoute] int id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            Response<Usuarios> response = await _usuariosService.GetOneAsync(id);
-
-            if (response.IsSuccess)
+            if (Guid.Empty.Equals(id))
             {
-                return View(response.Result);
+                return NotFound();
             }
 
-            // TODO: Mensaje de error
-            return RedirectToAction(nameof(Index));
+            Usuarios usuario = await _usuariosService.GetUserAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            UsuariosDTO dto = await _converterHelper.ToUserDTOAsync(usuario, false);
+
+            return View(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Usuarios usuarios)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UsuariosDTO dto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    // TODO: Mensaje de error
-                    return View(usuarios);
+                    _notifyService.Error("Debe ajustar los errores de validación");
+                    dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                    return View(dto);
                 }
 
-                Response<Usuarios> response = await _usuariosService.EditAsync(usuarios);
+                Response<Usuarios> response = await _usuariosService.UpdateAsync(dto);
 
                 if (response.IsSuccess)
                 {
-                    // TODO: Mensaje de éxito
+                    _notifyService.Success(response.Message);
                     return RedirectToAction(nameof(Index));
                 }
 
-                // TODO: Mostrar mensaje de error
-                return View(response);
+                _notifyService.Error(response.Message);
+                dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                return View(dto);
             }
             catch (Exception ex)
             {
-                // TODO: Mensaje de error
-                return View(usuarios);
+                dto.ArrendamientoSoftwareRoles = await _combosHelper.GetComboArrendamientoSoftwareRolesAsync();
+                return View(dto);
             }
         }
+
     }
 }

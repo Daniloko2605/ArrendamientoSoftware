@@ -1,25 +1,27 @@
-﻿@model Propiedades
+@model Propiedades
 
 @{
     ViewData["Title"] = "Editar Propiedad";
 }
 
 <div class="pagetitle">
-    <h1>Propiedad</h1>
+    <h1>Propiedades</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-            <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index">Propiedades</a></li>
             <li class="breadcrumb-item active">Editar Propiedad</li>
         </ol>
     </nav>
 </div>
 
+
 <section class="section dashboard">
+
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title text-primary">Editar Propiedad</h5>
+            <h5 class="card-title text-primary">Nueva Propiedad</h5>
 
             <form class="row g-3" asp-action="Edit" method="POST">
 
@@ -27,17 +29,9 @@
 
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <input asp-for="Descripcion" class="form-control" id="floatingDescripcion" placeholder="@Html.DisplayFor(model => model.Descripcion)">
-                        <label for="floatingDescripcion">Descripción</label>
+                        <input asp-for="Descripcion" class="form-control" id="floatingName" placeholder="@Html.DisplayFor(model => model.Descripcion)">
+                        <label asp-for="Descripcion"></label>
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-floating">
-                        <input asp-for="Precio" class="form-control" id="floatingPrecio" placeholder="@Html.DisplayFor(model => model.Precio)">
-                        <label for="floatingPrecio">Precio</label>
-                        <span asp-validation-for="Precio" class="text-danger"></span>
                     </div>
                 </div>
 

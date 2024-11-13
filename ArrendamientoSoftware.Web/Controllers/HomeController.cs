@@ -1,5 +1,5 @@
-using ArrendamientoSoftware.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using ArrendamientoSoftware.Web.Models;
 using System.Diagnostics;
 
 namespace ArrendamientoSoftware.Web.Controllers

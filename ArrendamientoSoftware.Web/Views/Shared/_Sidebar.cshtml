@@ -1,29 +1,53 @@
-﻿<aside id="sidebar" class="sidebar">
+﻿
+<aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="index.html">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "" : "collapsed")" 
+                asp-action="Index" 
+                asp-controller="Home">
                 <i class="bi bi-grid"></i>
-                <span>Inicio</span>
+                <span>Dashboard</span>
             </a>
         </li>
-          
-         
-        <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="Propiedades" asp-action="Index">
-                <i class="bi bi-house"></i>
-                <span>Propiedades</span>
-            </a>
-            </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="Usuarios" asp-action="Index">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Propiedades" ? "" : "collapsed")"
+               asp-controller="Propiedades" 
+                asp-action="Index">
+                <i class="bi bi-person"></i>
+                <span>Propiedades</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "TipoInmueble" ? "" : "collapsed")"
+               asp-controller="TipoInmueble" 
+                asp-action="Index">
+                <i class="bi bi-person"></i>
+                <span>TipoInmueble</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Usuarios" ? "" : "collapsed")"
+               asp-controller="Usuarios"
+               asp-action="Index">
                 <i class="bi bi-person"></i>
                 <span>Usuarios</span>
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Roles" ? "" : "collapsed")"
+               asp-controller="Roles"
+               asp-action="Index">
+                <i class="bi bi-person"></i>
+                <span>Roles</span>
+            </a>
+        </li>
+
     </ul>
 
-</aside><!-- End Sidebar-->
+</aside>

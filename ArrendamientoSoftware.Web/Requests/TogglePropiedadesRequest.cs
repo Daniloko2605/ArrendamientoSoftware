@@ -2,9 +2,8 @@
 {
     public class TogglePropiedadesRequest
     {
-
-        public string PropiedadDescripcion { get; set; }
+        public int PropiedadesId { get; set; }
+        public bool Hide { get; set; }
     }
-
+    
 }
-

@@ -1,0 +1,46 @@
+﻿@model UsuariosDTO
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="form-floating mt-2">
+            <input asp-for="Nombre" class="form-control" placeholder="@Html.DisplayFor(model => model.Nombre)">
+            <label asp-for="Nombre"></label>
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="form-floating mt-2">
+            <input asp-for="Apellido" class="form-control" placeholder="@Html.DisplayFor(model => model.Apellido)">
+            <label asp-for="Apellido"></label>
+            <span asp-validation-for="Apellido" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mt-2">
+            <input asp-for="Telefono" class="form-control" placeholder="@Html.DisplayFor(model => model.Telefono)">
+            <label asp-for="Telefono"></label>
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mt-2">
+            <input asp-for="Documento" class="form-control" placeholder="@Html.DisplayFor(model => model.Documento)">
+            <label asp-for="Documento"></label>
+            <span asp-validation-for="Documento" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating mt-2">
+            <select asp-for="ArrendamientoSoftwareRoleId" asp-items="Model.ArrendamientoSoftwareRoles" class="form-control"></select>
+            <label asp-for="ArrendamientoSoftwareRoleId"></label>
+            <span asp-validation-for="ArrendamientoSoftwareRoleId" class="text-danger"></span>
+        </div>
+    </div>    
+</div>

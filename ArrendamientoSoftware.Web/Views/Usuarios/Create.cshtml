@@ -1,4 +1,4 @@
-﻿@model Usuarios
+﻿@model UsuariosDTO
 
 @{
     ViewData["Title"] = "Nuevo Usuario";
@@ -14,42 +14,26 @@
         </ol>
     </nav>
 </div>
+
+
 <section class="section dashboard">
+
+
     <div class="card">
         <div class="card-body">
             <h5 class="card-title text-primary">Nuevo Usuario</h5>
 
             <form class="row g-3" asp-action="Create" method="POST">
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <input asp-for="Nombre" class="form-control" id="floatingNombre" placeholder="@Html.DisplayFor(model => model.Nombre)">
-                        <label for="floatingNombre">@Html.DisplayFor(model => model.Nombre)</label>
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
-                    </div>
-                </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-floating">
-                        <input asp-for="Email" class="form-control" id="floatingEmail" placeholder="@Html.DisplayFor(model => model.Email)">
-                        <label for="floatingEmail">@Html.DisplayFor(model => model.Email)</label>
+                        <input asp-for="Email" class="form-control" placeholder="Email">
+                        <label asp-for="Email"></label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <input asp-for="Telefono" class="form-control" id="floatingTelefono" placeholder="@Html.DisplayFor(model => model.Telefono)">
-                        <label for="floatingTelefono">@Html.DisplayFor(model => model.Telefono)</label>
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
-                    </div>
-                </div>
+                    <partial name="_UserPartial" />
 
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <input asp-for="Rol" class="form-control" id="floatingRol" placeholder="@Html.DisplayFor(model => model.Rol)">
-                        <label for="floatingRol">@Html.DisplayFor(model => model.Rol)</label>
-                        <span asp-validation-for="Rol" class="text-danger"></span>
-                    </div>
                 </div>
 
                 <div class="text-center">
@@ -63,5 +47,7 @@
 </section>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

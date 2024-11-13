@@ -1,38 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArrendamientoSoftware.Web.Data.Entities
 {
-
-    public class Usuarios
+    public class Usuarios : IdentityUser 
     {
-        [Key]
-        public int Id { get; set; }
+        [Display(Name = "Documento")]
+        [MaxLength(32, ErrorMessage = "El campo {0} debe terner máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        public string Documento { get; set; } = null!;
 
-        [Display(Name = "Nombre")]
-        [StringLength(80, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        [Required(ErrorMessage = "El campo '{0}' es requerido.")]
-        public string Nombre { get; set; }
+        [Display(Name = "Nombres")]
+        [MaxLength(32, ErrorMessage = "El campo {0} debe terner máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        public string Nombre { get; set; } = null!;
 
-        [Display(Name = "Email")]
-        [StringLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        [Required(ErrorMessage = "El campo '{0}' es requerido.")]
-        [EmailAddress(ErrorMessage = "El formato del email no es válido.")]
-        public string Email { get; set; }
+        [Display(Name = "Apellidos")]
+        [MaxLength(32, ErrorMessage = "El campo {0} debe terner máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        public string Apellido { get; set; } = null!;
 
-        [Display(Name = "Teléfono")]
-        [StringLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        public string Telefono { get; set; }
+        public string NombreCompleto => $"{Nombre} {Apellido}";
 
-        [Display(Name = "Rol")]
-        [StringLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caracteres.")]
-        public string Rol { get; set; }
+        public int ArrendamientoSoftwareRoleId { get; set; }
 
-        // Tracking dates
-        [Display(Name = "Fecha de Creación")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-
-        [Display(Name = "Fecha de Actualización")]
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        public ArrendamientoSoftwareRole ArrendamientoSoftwareRole { get; set; }
     }
-
 }
